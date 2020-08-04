@@ -50,101 +50,101 @@ next_state=3'b000;
 case(state) 
 
 idle: 
-case(coin)
-nickel: next_state=five; 
-dime: next_state=ten; 
-quarter: next_state=twentyfive; 
-default: next_state=idle; 
-endcase
+    case(coin)
+    nickel: next_state=five; 
+    dime: next_state=ten; 
+    quarter: next_state=twentyfive; 
+    default: next_state=idle; 
+    endcase
 
 five: 
-case(coin)
-nickel: next_state=ten; 
-dime: next_state=fifteen; 
-quarter: next_state=twentyfive;
-default: next_state=five; 
-endcase 
+    case(coin)
+    nickel: next_state=ten; 
+    dime: next_state=fifteen; 
+    quarter: next_state=twentyfive;
+    default: next_state=five; 
+    endcase 
 ten: 
-case(coin)
-nickel: next_state=fifteen; 
-dime: next_state=twenty; 
-quarter: next_state=twentyfive;
-default: next_state=ten; 
-endcase 
+    case(coin)
+    nickel: next_state=fifteen; 
+    dime: next_state=twenty; 
+    quarter: next_state=twentyfive;
+    default: next_state=ten; 
+    endcase 
 fifteen: 
-case(coin)
-nickel: next_state=twenty; 
-dime: next_state=twentyfive; 
-quarter: next_state=twentyfive;
-default: next_state=fifteen;
-endcase
+    case(coin)
+    nickel: next_state=twenty; 
+    dime: next_state=twentyfive; 
+    quarter: next_state=twentyfive;
+    default: next_state=fifteen;
+    endcase
 twenty: 
-case(coin)
-nickel: next_state=twentyfive;
-dime: next_state=twentyfive;
-default: next_state=twenty; 
-endcase 
+    case(coin)
+    nickel: next_state=twentyfive;
+    dime: next_state=twentyfive;
+    default: next_state=twenty; 
+    endcase 
 twentyfive: 
-next_state=idle;
-default : next_state=idle;
-endcase 
+    next_state=idle;
+    default : next_state=idle;
+    endcase 
 end
 
 always @(clock) 
-begin 
-if(reset) 
-begin 
-state <= idle; 
-vend <= 1'b0;
-end
-else 
-state <= next_state;
+    begin 
+        if(reset) 
+            begin 
+            state <= idle; 
+            vend <= 1'b0;
+            end
+        else 
+            state <= next_state;
 case (state) 
-idle: 
-begin 
-vend <= 1'b0; 
-change <=3'b000; 
-end 
-five: 
-begin 
-vend <= 1'b0; 
-if (coin==quarter) 
-change <=nickel; 
-else 
-change <=3'd000; 
-end 
-ten: 
-begin 
-vend <= 1'b0; 
-if (coin==quarter) 
-change <=dime; 
-else 
-change <= 3'b000;
-end 
-fifteen: 
-begin 
-vend <= 1'b0; 
-if (coin==quarter) 
-change <=nickel_dime; 
-else 
-change <= 3'b000; 
-end 
-twenty: 
-begin 
-vend <= 1'b0; 
-if (coin==dime) 
-change <=nickel; 
-else 
-if (coin==quarter) 
-change <=dime_dime; 
-else 
-change <= 3'b000; 
-end 
-twentyfive: 
-begin 
-vend <= 1'b1; 
-change <=3'b000; 
-end 
+       idle: 
+        begin 
+        vend <= 1'b0; 
+        change <=3'b000; 
+        end 
+    five: 
+        begin 
+            vend <= 1'b0; 
+            if (coin==quarter) 
+            change <=nickel; 
+            else 
+            change <=3'd000; 
+        end 
+    ten: 
+        begin 
+            vend <= 1'b0; 
+            if (coin==quarter) 
+            change <=dime; 
+            else 
+            change <= 3'b000;
+        end 
+    fifteen: 
+        begin 
+            vend <= 1'b0; 
+            if (coin==quarter) 
+            change <=nickel_dime; 
+            else 
+            change <= 3'b000; 
+        end 
+    twenty: 
+        begin 
+            vend <= 1'b0; 
+            if (coin==dime) 
+            change <=nickel; 
+            else 
+                if (coin==quarter) 
+                change <=dime_dime; 
+                else 
+                change <= 3'b000; 
+        end 
+    twentyfive: 
+        begin 
+            vend <= 1'b1; 
+            change <=3'b000; 
+        end 
 default: state <= idle; 
 endcase
 end 
